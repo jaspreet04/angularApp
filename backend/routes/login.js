@@ -7,10 +7,10 @@ var jwt = require('jsonwebtoken');
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
 /* GET home page. */
 router.post('/', async (req, res,) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({email}).lean()
-
+  
   if(!user){
     res.status(401).send(generateResponse("error", 'invalid user'));
   }

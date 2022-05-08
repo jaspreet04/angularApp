@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+ var { app, io } = require('../app');
 var debug = require('debug')('chatapp:server');
 var http = require('http');
 
@@ -33,6 +33,9 @@ server.listen(port, function() {
 });
 server.on('error', onError);
 server.on('listening', onListening);
+
+
+io.attach(server);
 
 /**
  * Normalize a port into a number, string, or false.

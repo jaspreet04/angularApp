@@ -5,6 +5,10 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('./database/mongoose');
 const expressJwt = require('express-jwt');
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
+
+// require socket.io
+const io = require('socket.io')();
+
 var app = express();
 app.use(cors());
 
@@ -13,7 +17,8 @@ app.use(cors());
 // }); 
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
-var dashboardRouter = require('./routes/dashboard');
+var dashboardRouter = require('./routes/dashboard')(io);
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -37,4 +42,4 @@ app.use(function(err, req, res, next) {
   res.send('no page found');
 });
 
-module.exports = app;
+module.exports = { app, io };
