@@ -6,7 +6,9 @@ import { Socket } from 'ngx-socket-io';
 })
 export class SocketService {
 
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {
+
+   }
 
   updateUsers() {
 		this.socket.emit('updateusers');
@@ -18,6 +20,10 @@ export class SocketService {
 
   addNewUsers(data: any) {
 		this.socket.emit('addnewuser',data);
+	} 
+
+  disconnect(userid: string) {
+		this.socket.disconnect();
 	} 
   
 }

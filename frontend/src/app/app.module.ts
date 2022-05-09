@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule} from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { UserComponent } from './pages/user/user.component';
+import { OnlineusersComponent } from './components/onlineusers/onlineusers.component';
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:3000', // socket server url;
@@ -23,7 +25,9 @@ const config: SocketIoConfig = {
     LoginComponent,
     SignupComponent,
     DashboardComponent,
-    UserComponent
+    UserComponent,
+    OnlineusersComponent,
+    OnlineusersComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,7 @@ const config: SocketIoConfig = {
     HttpClientModule,
     SocketIoModule.forRoot(config),
   ],
-  providers: [],
+  providers: [ CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

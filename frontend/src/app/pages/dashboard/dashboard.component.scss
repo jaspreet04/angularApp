@@ -1,0 +1,17 @@
+.online-users {
+    background-color: #FDFDFD;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    height: calc(100vh - 60px);;
+}
+
+.chat-box {
+    background-color: #FFF;
+    position: relative;
+
+    &__form {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}

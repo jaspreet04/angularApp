@@ -3,8 +3,8 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
-var _onlineUsers={};
-
+var _onlineUsers=[];
+var _onlineUsers2={};
 var route = function(io) {
 	/* GET users listing. */
 	router.get('/', function(req, res, next) {
@@ -14,16 +14,24 @@ var route = function(io) {
 	io.on('connection', function(client) {
 	    console.log('server - connected to socket');
 	    client.on('addnewuser', function(data) {
-			console.log(data);
-            if(data.userid in _onlineUsers){
-				
-	    	}else{
-	    		updateOnlineUsers(data);
-	    	}
+            
+            if(!_onlineUsers.find(x => x.userId == data.userId))
+                _onlineUsers.push(data);
+          // _onlineUsers2[client.id] = data;
+          // console.log(_onlineUsers2)
+	    	updateOnlineUsers();
+	    	
 	    });
 
-        function updateOnlineUsers(data){
-	    	_onlineUsers[data.userid] = data;
+      client.on("disconnect", function (userid) {
+        console.log("userid disconnected")
+        console.log(client.id);
+
+        _onlineUsers = _onlineUsers.filter(user => user.userId != userid)
+        updateOnlineUsers();
+      });
+
+      function updateOnlineUsers(){
 	    	io.emit('updateusers', _onlineUsers);
     	}
 
