@@ -2,28 +2,32 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
-
-  constructor(private socket: Socket) {
-
-   }
+  constructor(private socket: Socket) {}
 
   updateUsers() {
-		this.socket.emit('updateusers');
-	} 
+    this.socket.emit('updateusers');
+  }
 
   OnupdateUsers() {
-		return this.socket.fromEvent('updateusers');
-	} 
+    return this.socket.fromEvent('updateusers');
+  }
 
   addNewUsers(data: any) {
-		this.socket.emit('addnewuser',data);
-	} 
+    this.socket.emit('addnewuser', data);
+  }
+
+  onUpdateMessage() {
+    return this.socket.fromEvent('message');
+  }
+
+  updateMessage(data: any) {
+	this.socket.emit('message', data)
+  }
 
   disconnect(userid: string) {
-		this.socket.disconnect();
-	} 
-  
+    this.socket.disconnect();
+  }
 }

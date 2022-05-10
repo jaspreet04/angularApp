@@ -11,6 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { UserComponent } from './pages/user/user.component';
 import { OnlineusersComponent } from './components/onlineusers/onlineusers.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:3000', // socket server url;
@@ -22,6 +23,7 @@ const config: SocketIoConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+
     LoginComponent,
     SignupComponent,
     DashboardComponent,
@@ -33,6 +35,8 @@ const config: SocketIoConfig = {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     SocketIoModule.forRoot(config),
   ],
   providers: [ CookieService],
