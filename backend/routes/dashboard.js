@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
+const Message = require('../database/models/message');
 var _onlineUsers=[];
 var _operators=[];
 var route = function(io) {
@@ -41,6 +42,7 @@ var route = function(io) {
 				user = _onlineUsers.find(x => x.userId == data.to)
 			}
 			console.log(user)
+			Message.create(data)
 			io.to(user.clientId).emit('message',data)
 	    });
 
