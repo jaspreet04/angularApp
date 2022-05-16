@@ -1,4 +1,5 @@
-<form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
+<div *ngIf="!eixtingUser" class="container">
+  <form [formGroup]="startChatForm" (ngSubmit)="onSubmit()">
 
     <div>
       <label for="name">
@@ -8,12 +9,33 @@
     </div>
 
     <div>
-        <label for="email">
-          Email
-        </label>
-        <input id="email" type="text" formControlName="email">
-      </div>
-  
+      <label for="email">
+        Email
+      </label>
+      <input id="email" type="text" formControlName="email">
+    </div>
+
     <button class="button" type="submit">Start Chat</button>
-  
+
   </form>
+</div>
+
+<div *ngIf="eixtingUser" class="container">
+  <div class="chat-box__conversation">
+    <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation">
+      {{message.message }}
+    </div>
+  </div>
+  <form [formGroup]="chatForm" (ngSubmit)="onSendMessage()">
+
+    <div>
+      <label for="message">
+        Message
+      </label>
+      <input id="message" type="text" formControlName="message">
+    </div>
+
+    <button class="button" type="submit">Send</button>
+
+  </form>
+</div>

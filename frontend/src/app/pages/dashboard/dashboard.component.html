@@ -63,21 +63,26 @@
 
 <div class="d-flex">
   <div class="w-25 online-users">
-    <app-onlineusers [onlineUsers]="_onlineUsers"></app-onlineusers>
+    <app-onlineusers [onlineUsers]="_onlineUsers" (selectUserEvent)="selectUser($event)"></app-onlineusers>
   </div>
   <div class="w-75 chat-box">
-    <div class="chat-box__conversation"></div>
+    <div class="chat-box__conversation">
+      <div class="list-group-item list-group-item-action onlineusers__user"  *ngFor="let message of conversation">
+        {{message.message }}
+      </div>
+    </div>
     <div class="chat-box__form">
       <div class="input-group mb-1">
         <input
           type="text"
           class="form-control"
           placeholder="message"
+          [(ngModel)]="message"
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-primary" type="button">Send</button>
+          <button class="btn btn-outline-primary" (click)="sendMessage()"  type="button">Send</button>
         </div>
       </div>
     </div>

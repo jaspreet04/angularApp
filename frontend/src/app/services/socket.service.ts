@@ -1,3 +1,4 @@
+import  messages  from 'src/app/model/messages';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
@@ -19,11 +20,15 @@ export class SocketService {
     this.socket.emit('addnewuser', data);
   }
 
+  registerOperator(data :any) {
+    this.socket.emit('registeroperator', data);
+  }
+
   onUpdateMessage() {
     return this.socket.fromEvent('message');
   }
 
-  updateMessage(data: any) {
+  sendMessage(data: messages) {
 	this.socket.emit('message', data)
   }
 

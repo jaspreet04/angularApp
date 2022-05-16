@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
 var _onlineUsers=[];
-var _onlineUsers2=[];
+var _operators=[];
 var route = function(io) {
 	/* GET users listing. */
 	router.get('/', function(req, res, next) {
@@ -13,17 +13,35 @@ var route = function(io) {
 	});
 	io.on('connection', function(client) {
 	    console.log('server - connected to socket');
+	
+		client.on('registeroperator', function(data) {
+			//To-Do- add multiple operator support
+			operator = {};
+			operator.clientId=client.id
+			console.log("data>--"+operator);
+			console.log(" register operator" + client.id);
+            if(!_operators.find(x => x.clientId == data.client))
+                _operators.push(operator);  
+			console.log(_operators)  	
+	    });
+
 	    client.on('addnewuser', function(data) {
             data.clientId=client.id
             if(!_onlineUsers.find(x => x.userId == data.userId))
                 _onlineUsers.push(data);
 	    	updateOnlineUsers();
-	    	
 	    });
 
 		client.on('message', function(data) {
-			user = _onlineUsers.find(x => x.userId == data.to)
-			io.to(user.clientId).emit(data.message)
+			console.log(data)
+			if(data.to == 'operator'){
+				user = _operators[_operators.length-1];
+				console.log(_operators)
+			}else {
+				user = _onlineUsers.find(x => x.userId == data.to)
+			}
+			console.log(user)
+			io.to(user.clientId).emit('message',data)
 	    });
 
       client.on("disconnect", function () {
