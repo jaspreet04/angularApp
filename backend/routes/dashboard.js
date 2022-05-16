@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
 const Message = require('../database/models/message');
+const user = require("../database/models/user");
 var _onlineUsers=[];
 var _operators=[];
 var route = function(io) {
@@ -12,6 +13,17 @@ var route = function(io) {
         console.log('dashboard');
 	  res.send("Dashboard")
 	});
+
+	router.post('/messages', async function(req, res, next) {
+		try{
+			let userId = req.body.userId; 
+			await Message.find({'from': userId}).then(messages=>res.status(200).send(messages));
+		}catch{
+			res.status(401).send({"error":"error"});
+		}
+
+	});
+
 	io.on('connection', function(client) {
 	    console.log('server - connected to socket');
 	

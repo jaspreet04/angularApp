@@ -11,7 +11,7 @@ import { SocketService } from 'src/app/services/socket.service';
 export class DashboardComponent implements OnInit {
   public _onlineUsers: onlineUser[] = [];
   public conversation: messages[] = [];
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService,) {}
   public message = '';
   private selectedUser!: string;
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class DashboardComponent implements OnInit {
   selectUser(userId: string) {
     this.selectedUser = userId;
     this.incrementOrResetUreadMessages(true, userId)
+
   }
 
   sendMessage() {
