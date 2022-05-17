@@ -17,7 +17,6 @@ export class WebService {
   }
 
   post(uri: string, payload: object) {
-    return this.http.post<apiResponse>(`${this.ROOT_URL}/${uri}`, payload);
-    
+    return this.http.post<any>(`${this.ROOT_URL}/${uri}`, payload);
   }
 }

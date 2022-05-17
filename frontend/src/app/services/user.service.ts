@@ -14,4 +14,8 @@ export class UserService {
   signupUser(username:string, email: string, password: string) {
     return this.webService.post('signup', { username, email, password });
   }
+
+  getUserConversation(userId:string) {
+    return this.webService.post('dashboard/messages', { userId });
+  }
 }

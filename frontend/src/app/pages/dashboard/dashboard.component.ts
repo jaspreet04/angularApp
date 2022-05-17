@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import onlineUser from 'src/app/model/onlineUser';
 import messages from 'src/app/model/messages';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,7 @@ import { SocketService } from 'src/app/services/socket.service';
 export class DashboardComponent implements OnInit {
   public _onlineUsers: onlineUser[] = [];
   public conversation: messages[] = [];
-  constructor(private socketService: SocketService,) {}
+  constructor(private socketService: SocketService, private userService: UserService) {}
   public message = '';
   private selectedUser!: string;
   ngOnInit(): void {
@@ -46,7 +47,13 @@ export class DashboardComponent implements OnInit {
   selectUser(userId: string) {
     this.selectedUser = userId;
     this.incrementOrResetUreadMessages(true, userId)
+    this.getPreviousConversation();
+  }
 
+  private async getPreviousConversation(){
+     await this.userService.getUserConversation(this.selectedUser).subscribe((data) => {
+       this.conversation = data;
+     })
   }
 
   sendMessage() {

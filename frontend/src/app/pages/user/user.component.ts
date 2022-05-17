@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
@@ -32,19 +33,27 @@ export class UserComponent implements OnInit {
   constructor(
     private socketService: SocketService,
     private cookieService: CookieService,
+    private userService: UserService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    // if(this.isExistingUser()) {
-    //   this.eixtingUser = true;
-    //   this.addexistingUser();
-    // }
+    if(this.isExistingUser()) {
+      this.eixtingUser = true;
+      this.getPreviousConversation()
+      this.addexistingUser();
+    }
     this.socketService.onUpdateMessage().subscribe((data: any) => {
       console.log(data)
       this.conversation.push(data)
     })
   }
+
+  private async getPreviousConversation(){
+    await this.userService.getUserConversation(this.getUserId()).subscribe((data) => {
+      this.conversation = data;
+    })
+ }
 
   onSubmit(): void {
     this.addUser();
@@ -65,34 +74,38 @@ export class UserComponent implements OnInit {
   private addUser() {
     this.user.name = this.startChatForm.get('name')?.value;
     this.user.email = this.startChatForm.get('email')?.value;
-    this.cookieService.set('name', this.user.name);
     this.user.userId = this.getUserId();
+    this.cookieService.set('online_user', JSON.stringify(this.user));
     this.socketService.addNewUsers(this.user);
     this.eixtingUser = true;
   }
 
-  // private addexistingUser(){
-  //   this.user.name = this.chatForm.get('name')?.value;
-  //   this.user.userId = this.getUserId();
-  //   this.socketService.addNewUsers(this.user);
-  //   this.eixtingUser = true;
-  // }
+  private addexistingUser(){
+    let user = this.getExistingUser();
+    console.log(user)
+    this.socketService.addNewUsers(user);
+    this.eixtingUser = true;
+  }
 
   private getUserId() {
     if (this.isExistingUser()) {
-      return this.cookieService.get('userid');
+      let user = JSON.parse(this.cookieService.get('online_user'))
+      return user.userId;
     }
 
     return this.generateUserid();
   }
 
   private isExistingUser() {
-    return this.cookieService.get('userid') != '';
+    return this.cookieService.get('online_user') != '';
+  }
+
+  private getExistingUser() {
+    return JSON.parse(this.cookieService.get('online_user'));
   }
 
   private generateUserid() {
     let userid = 'user-' + Math.floor(new Date().getTime() / 1000);
-    this.cookieService.set('userid', userid);
     return userid;
   }
 
