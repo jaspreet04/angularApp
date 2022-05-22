@@ -44,7 +44,7 @@
     <app-onlineusers [onlineUsers]="_onlineUsers" (selectUserEvent)="selectUser($event)"></app-onlineusers>
   </div>
   <div class="w-75 chat-box">
-    <div class="chat-box__conversation">
+    <div class="chat-box__conversation" #conversationScroll>
       <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation"
         [className]="message.from=='operator' ? 'chat-box__message chat-box__message--right alert-success' : 'chat-box__message chat-box__message--left alert-primary'">
         {{message.message }}

@@ -1,7 +1,7 @@
 import { UserService } from './../../services/user.service';
 import onlineUser from 'src/app/model/onlineUser';
 import messages from 'src/app/model/messages';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
@@ -9,18 +9,22 @@ import { SocketService } from 'src/app/services/socket.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewChecked{
+  @ViewChild('conversationScroll')
+  private conversationScrollContainer!: ElementRef;
   public _onlineUsers: onlineUser[] = [];
   public conversation: messages[] = [];
   constructor(private socketService: SocketService, private userService: UserService) {}
   public message = '';
   private selectedUser!: string;
   ngOnInit(): void {
+    this.scrollToBottom();
     this.socketService.updateUsers();
     this.socketService.registerOperator('');
     this.socketService.OnupdateUsers().subscribe((data: any) => {
       this._onlineUsers = data;
     });
+    
 
     this.socketService.onUpdateMessage().subscribe((data: any) => {
       console.log(this._onlineUsers);
@@ -32,6 +36,17 @@ export class DashboardComponent implements OnInit {
         console.log(this._onlineUsers)
       }
     });
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.conversationScrollContainer.nativeElement.scrollTop =
+        this.conversationScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {}
   }
 
   private incrementOrResetUreadMessages(reset: boolean, userid:string) {

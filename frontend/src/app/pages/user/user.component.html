@@ -21,10 +21,9 @@
 </div>
 
 <div *ngIf="eixtingUser" class="container position-relative">
-  <div class="chat-box__conversation">
+  <div class="chat-box__conversation" #conversationScroll>
     <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation"
     [className]="message.to=='operator' ? 'chat-box__message chat-box__message--right alert-success' : 'chat-box__message chat-box__message--left alert-primary'"
-    #scrollMe [scrollTop]="scrollMe.scrollHeight"
     >
       {{message.message }}
     </div>

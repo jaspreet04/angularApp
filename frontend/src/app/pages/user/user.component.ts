@@ -1,6 +1,12 @@
 import { UserService } from './../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  ElementRef,
+  ViewChild,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
 import onlineUser from 'src/app/model/onlineUser';
 import { FormBuilder } from '@angular/forms';
@@ -11,7 +17,9 @@ import messages from 'src/app/model/messages';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewChecked {
+  @ViewChild('conversationScroll')
+  private conversationScrollContainer!: ElementRef;
   chatForm = this.formBuilder.group({
     message: '',
   });
@@ -38,22 +46,36 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(this.isExistingUser()) {
+    this.scrollToBottom();
+    if (this.isExistingUser()) {
       this.eixtingUser = true;
-      this.getPreviousConversation()
+      this.getPreviousConversation();
       this.addexistingUser();
     }
     this.socketService.onUpdateMessage().subscribe((data: any) => {
-      console.log(data)
-      this.conversation.push(data)
-    })
+      console.log(data);
+      this.conversation.push(data);
+    });
   }
 
-  private async getPreviousConversation(){
-    await this.userService.getUserConversation(this.getUserId()).subscribe((data) => {
-      this.conversation = data;
-    })
- }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.conversationScrollContainer.nativeElement.scrollTop =
+        this.conversationScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {}
+  }
+
+  private async getPreviousConversation() {
+    await this.userService
+      .getUserConversation(this.getUserId())
+      .subscribe((data) => {
+        this.conversation = data;
+      });
+  }
 
   onSubmit(): void {
     this.addUser();
@@ -63,7 +85,7 @@ export class UserComponent implements OnInit {
     let message: messages = {
       message: this.chatForm.get('message')?.value,
       from: this.getUserId(),
-      to: 'operator'
+      to: 'operator',
     };
 
     this.conversation.push(message);
@@ -80,16 +102,16 @@ export class UserComponent implements OnInit {
     this.eixtingUser = true;
   }
 
-  private addexistingUser(){
+  private addexistingUser() {
     let user = this.getExistingUser();
-    console.log(user)
+    console.log(user);
     this.socketService.addNewUsers(user);
     this.eixtingUser = true;
   }
 
   private getUserId() {
     if (this.isExistingUser()) {
-      let user = JSON.parse(this.cookieService.get('online_user'))
+      let user = JSON.parse(this.cookieService.get('online_user'));
       return user.userId;
     }
 
