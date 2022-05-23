@@ -16,9 +16,8 @@ router.post('/', async (req, res,) => {
   }
   if(await bcrypt.compare(password, user.password)){
       let jwtBearerToken = jwt.sign({userId : user._id, userName: user.userName},JWT_SECRET)
-    // set it in an HTTP Only + Secure Cookie
-    res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
-    res.send(generateResponse("ok", "Logged in."));
+
+    res.send(generateResponse("ok", jwtBearerToken));
   }else {
     res.status(401).send(generateResponse("error", "error"));
   }
