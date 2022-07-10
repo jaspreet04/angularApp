@@ -17,6 +17,7 @@ app.use(cors());
 // }); 
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
+var olineuserdRouter = require('./routes/onlineuser');
 var dashboardRouter = require('./routes/dashboard')(io);
 const auth = require("./middleware/authentication");
 
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use('/login',   loginRouter);
 app.use('/signup', signupRouter);
 app.use('/dashboard', auth , dashboardRouter);
+app.use('/onlineuser', olineuserdRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

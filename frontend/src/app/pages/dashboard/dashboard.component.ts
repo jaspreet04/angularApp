@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     });
 
     this.socketService.onUpdateMessage().subscribe((data: any) => {
-      console.log(this._onlineUsers);
+      console.log(this._onlineUsers +"called foem");
       console.log(data.from + '==' + this.selectedUser);
       if (data.from == this.selectedUser) this.conversation.push(data);
       else {

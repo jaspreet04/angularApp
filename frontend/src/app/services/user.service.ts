@@ -19,7 +19,7 @@ export class UserService {
   }
 
   getUserConversation(userId:string) {
-    return this.webService.post('dashboard/messages', { userId });
+    return this.webService.post('onlineuser/messages', { userId });
   }
 
   getToken() {
