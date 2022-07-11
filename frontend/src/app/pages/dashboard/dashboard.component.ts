@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   private async getPreviousConversation() {
     await this.userService
-      .getUserConversation(this.selectedUser)
+      .getDashboardConversation(this.selectedUser)
       .subscribe((data) => {
         this.conversation = data;
       });

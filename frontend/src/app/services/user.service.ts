@@ -22,6 +22,10 @@ export class UserService {
     return this.webService.post('onlineuser/messages', { userId });
   }
 
+  getDashboardConversation(userId:string) {
+    return this.webService.post('dashboard/messages', { userId });
+  }
+
   getToken() {
     return this.cookieService.get('token');
   }
