@@ -6,7 +6,6 @@ const JWT_SECRET = "DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV";
 const Message = require("../database/models/message");
 const OnlineUsers = require("../database/models/onlineUsers");
 const user = require("../database/models/user");
-const { on } = require("nodemon");
 var _onlineUsers = [];
 var _operators = [];
 var route = function (io) {
@@ -27,6 +26,7 @@ var route = function (io) {
     }
   });
 
+  //TODO: Implement the authentication to the socket connection
   io.on("connection", function (client) {
     console.log("server - connected to socket");
 

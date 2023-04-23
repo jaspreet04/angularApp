@@ -20,7 +20,7 @@ const { email, password, username } = req.body;
     res.send(generateResponse("error", error.message));
   }
  
-  res.send(generateResponse("ok", "User Added Sucessfully"));
+  // res.send(generateResponse("ok", "User Added Sucessfully"));
   
 });
 
