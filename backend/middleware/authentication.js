@@ -3,20 +3,21 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = 'DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV';
 
 const verifyToken = (req, res, next) => {
+  try {
   const token =
     req.body.token || req.query.token || req.headers["token"];
-
+  
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    console.log("no token found")
+    throw 'Invalid Token'
   }
-  try {
+  
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
+    next()
   } catch (err) {
-      console.log(token)
     return res.status(401).send("Invalid Token");
   }
-  return next();
 };
 
 module.exports = verifyToken;

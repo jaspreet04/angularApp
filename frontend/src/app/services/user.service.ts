@@ -10,14 +10,6 @@ export class UserService {
     private cookieService: CookieService,
     ) {}
 
-  loginUser(email: string, password: string) {
-    return this.webService.post('login', { email, password });
-  }
-
-  signupUser(username:string, email: string, password: string) {
-    return this.webService.post('signup', { username, email, password });
-  }
-
   getUserConversation(userId:string) {
     return this.webService.post('onlineuser/messages', { userId });
   }

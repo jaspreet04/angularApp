@@ -1,4 +1,4 @@
-import { UserService } from './../../services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,13 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   signupUser(username: string, email: string, password: string){
-
-    this.userService.signupUser(username, email, password).subscribe((res: object ) => console.log(res))
+    this.authService.signupUser(username, email, password).subscribe((res: object ) => console.log(res))
   }
 }

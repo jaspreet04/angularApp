@@ -9,6 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SocketService } from 'src/app/services/socket.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +24,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public conversation: messages[] = [];
   constructor(
     private socketService: SocketService,
-    private userService: UserService
+    private userService: UserService,
+    private auth: AuthService
   ) {}
   public message = '';
   private selectedUser!: string;
@@ -35,8 +38,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     });
 
     this.socketService.onUpdateMessage().subscribe((data: any) => {
-      console.log(this._onlineUsers +"called foem");
-      console.log(data.from + '==' + this.selectedUser);
       if (data.from == this.selectedUser) this.conversation.push(data);
       else {
         this.incrementOrResetUreadMessages(false, data.from);
@@ -71,11 +72,17 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   private async getPreviousConversation() {
-    await this.userService
-      .getDashboardConversation(this.selectedUser)
-      .subscribe((data) => {
+    this.userService.getDashboardConversation(this.selectedUser).subscribe({
+      next: (data: any) => {
+        console.log('data:' + data);
         this.conversation = data;
-      });
+      },
+      error: (error: any) => {
+        if (error['status'] == 401) {
+          this.auth.logoutUser();
+        }
+      },
+    });
   }
 
   sendMessage() {

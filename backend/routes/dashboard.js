@@ -6,10 +6,13 @@ const JWT_SECRET = "DFDKNDKJNFNEFKRNNIi#$$##LKFIVFNVKFNV";
 const Message = require("../database/models/message");
 const OnlineUsers = require("../database/models/onlineUsers");
 const user = require("../database/models/user");
+const  verifyToken  = require('../middleware/authentication')
+const { use } = require("./login");
 var _onlineUsers = [];
 var _operators = [];
 var route = function (io) {
   /* GET users listing. */
+  //router.use(verifyToken)
   router.get("/", function (req, res, next) {
     console.log("dashboard");
     res.send("Dashboard");
@@ -18,8 +21,14 @@ var route = function (io) {
   router.post("/messages", async function (req, res, next) {
     try {
       let userId = req.body.userId;
+      console.log("getmessages")
       await Message.find({ $or: [{ from: userId }, { to: userId }] }).sort({createdAt:1}).then(
-        (messages) => res.status(200).send(messages)
+        
+        (messages) => {
+          console.log(messages) 
+          res.status(200).send(messages)
+        }
+        
       );
     } catch {
       res.status(401).send({ error: "error" });
@@ -31,14 +40,18 @@ var route = function (io) {
     console.log("server - connected to socket");
 
     client.on("registeroperator", async function (data) {
-      //To-Do- add multiple operator support
+      //TODO- add multiple operator support
       operator = {};
       operator.clientId = client.id;
       const sockets = Array.from(io.sockets.sockets).map(socket => socket[0]);
+      console.log("  sockets ---------------------------------");
       console.log(sockets)
       let onlineuser = await OnlineUsers.find( { "clientId": { $in: sockets } } ).catch((err) => console.log("ddddddddddddderr"));
+      console.log("  online users ---------------------------------");
       if(onlineuser.length != 0)
         _onlineUsers.push(onlineuser);
+      
+      console.log(_onlineUsers)
       updateOnlineUsers();
       console.log(" register operator" + client.id);
       if (!_operators.find((x) => x.clientId == data.client))
@@ -48,7 +61,7 @@ var route = function (io) {
 
     client.on("addnewuser", function (data) {
       data.clientId = client.id;
-      OnlineUsers.updateOne(data,{ upsert : true }).catch((err) => console.log(err));
+      OnlineUsers.updateOne(data,data ,{ upsert : true }).catch((err) => console.log(err));
       console.log(data);
       if (!_onlineUsers.find((x) => x.userId == data.userId))
         _onlineUsers.push(data);

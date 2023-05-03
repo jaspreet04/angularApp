@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import apiResponse from 'src/app/model/apiResponse';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    private userService: UserService, 
+    private authService: AuthService, 
     private cookieService: CookieService,
     private router: Router,
     private formBuilder :FormBuilder
@@ -37,8 +38,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.userEmail?.value + this.userPassword?.value)
-    this.userService
+    this.authService
       .loginUser(this.userEmail?.value, this.userPassword?.value)
       .subscribe({
         next: (res: apiResponse) => {

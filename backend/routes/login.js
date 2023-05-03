@@ -15,7 +15,7 @@ router.post('/', async (req, res,) => {
     res.status(401).send(generateResponse("error", 'invalid user'));
   } else {
     if(await bcrypt.compare(password, user.password)){
-      let jwtBearerToken = jwt.sign({userId : user._id, userName: user.userName},JWT_SECRET)
+      let jwtBearerToken = jwt.sign({userId : user._id, userName: user.username},JWT_SECRET)
 
       res.send(generateResponse("ok", jwtBearerToken));
     }else {
