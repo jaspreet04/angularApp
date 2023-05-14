@@ -13,6 +13,11 @@ import { UserComponent } from './pages/user/user.component';
 import { OnlineusersComponent } from './components/onlineusers/onlineusers.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './common/authconfig.interceptor';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu'; 
+import { MatButtonModule } from '@angular/material/button'; 
+import {MatIconModule} from '@angular/material/icon'
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:3000', // socket server url;
@@ -30,7 +35,8 @@ const config: SocketIoConfig = {
     DashboardComponent,
     UserComponent,
     OnlineusersComponent,
-    OnlineusersComponent
+    OnlineusersComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +45,10 @@ const config: SocketIoConfig = {
     FormsModule,
     ReactiveFormsModule,
     SocketIoModule.forRoot(config),
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [ CookieService,
     {

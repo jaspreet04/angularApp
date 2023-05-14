@@ -1,6 +1,75 @@
 .online-users {
-    background-color: #FDFDFD;
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
-    height: calc(100vh - 60px);;
+    background-color: #15243D;
+    // border: 1px solid #eaeaea;
+    // height: calc(100vh - 60px);
+    &__title {
+        padding: 15px;
+        font-size: 20px;
+    }
+}
+
+.costum-w-80 {
+    width: 80%;
+}
+
+.costum-w-20 {
+    width: 20%;
+}
+
+// side-bar syyle start here
+.side-bar {
+    background-color: #0E1D35;
+    display: flex;
+    flex-flow: column;
+
+    &__logo {
+        color: white;
+    }
+
+    &__options{
+        display: flex;
+        // flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__link {
+        display: block;
+        color: white;
+    }
+}
+
+// side-bar code end here
+
+
+// chatbox style
+.chat-box {
+    background-color: #101C2E;
+    position: relative;
+
+    &__form {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+    }
+
+    &__conversation {
+        width: 100%;
+        height: 80vh;
+        overflow-y: auto;
+    }
+
+    &__message {
+        border-radius: 5px;
+        max-width: 50%;
+        display: block;
+        overflow-wrap: break-word;
+        margin: 30px;
+        padding: 10px;
+
+        &--right {
+            margin-left: 50%;
+        }
+    }
 }
