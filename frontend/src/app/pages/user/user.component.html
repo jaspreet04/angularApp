@@ -22,11 +22,13 @@
 
 <div *ngIf="eixtingUser" class="container position-relative">
   <div class="chat-box__conversation" #conversationScroll>
-    <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation"
+
+    <app-chat-bubble *ngFor="let message of conversation" [message]="message" ></app-chat-bubble>
+    <!-- <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation"
     [className]="message.to=='operator' ? 'chat-box__message chat-box__message--right alert-success' : 'chat-box__message chat-box__message--left alert-primary'"
     >
       {{message.message }}
-    </div>
+    </div> -->
   </div>
   <br/>
   <br/>

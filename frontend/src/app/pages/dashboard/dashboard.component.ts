@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     private userService: UserService,
     private auth: AuthService
   ) {}
-  public message = '';
   private selectedUser!: string;
   ngOnInit(): void {
     this.scrollToBottom();
@@ -85,15 +84,14 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  sendMessage() {
-    let message: messages = {
-      message: this.message,
+  sendMessage(messageText: string) {
+    let operatorMessage: messages = {
+      message: messageText,
       from: 'operator',
       to: this.selectedUser,
     };
 
-    this.conversation.push(message);
-    this.socketService.sendMessage(message);
-    this.message = '';
+    this.conversation.push(operatorMessage);
+    this.socketService.sendMessage(operatorMessage);
   }
 }

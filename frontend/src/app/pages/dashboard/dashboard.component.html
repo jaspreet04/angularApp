@@ -28,19 +28,8 @@
   <div class="costum-w-80 chat-box">
     <app-navbar></app-navbar>
     <div class="chat-box__conversation" #conversationScroll>
-      <div class="list-group-item list-group-item-action onlineusers__user" *ngFor="let message of conversation"
-        [className]="message.from=='operator' ? 'chat-box__message chat-box__message--right alert-success' : 'chat-box__message chat-box__message--left alert-primary'">
-        {{message.message }}
-      </div>
+      <app-chat-bubble *ngFor="let message of conversation" [message]="message" ></app-chat-bubble>
     </div>
-    <div class="chat-box__form">
-      <div class="input-group mb-1">
-        <input type="text" class="form-control" placeholder="message" [(ngModel)]="message"
-          aria-label="Recipient's username" aria-describedby="basic-addon2" />
-        <div class="input-group-append">
-          <button class="btn btn-outline-primary" (click)="sendMessage()" type="button">Send</button>
-        </div>
-      </div>
-    </div>
+    <app-chat-form (onSubmitEvent)="sendMessage($event)"></app-chat-form>
   </div>
 </div>

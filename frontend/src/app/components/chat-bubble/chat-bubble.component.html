@@ -1,0 +1,4 @@
+<div class="chat-bubble"
+    [ngClass]="{'chat-bubble--right alert-success': message.from === 'operator', 'chat-bubble--left alert-primary': message.from !== 'operator'}">
+    {{ message.message }}
+</div>

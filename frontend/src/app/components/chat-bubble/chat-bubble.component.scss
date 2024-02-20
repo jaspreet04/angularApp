@@ -1,0 +1,12 @@
+.chat-bubble {
+    border-radius: 5px;
+    max-width: 50%;
+    display: block;
+    overflow-wrap: break-word;
+    margin: 30px;
+    padding: 10px;
+
+    &--right {
+        margin-left: 50%;
+    }
+}

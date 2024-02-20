@@ -17,7 +17,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatButtonModule } from '@angular/material/button'; 
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import { ChatBubbleComponent } from './components/chat-bubble/chat-bubble.component';
+import { ChatFormComponent } from './components/chat-form/chat-form.component'
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:3000', // socket server url;
@@ -36,7 +38,9 @@ const config: SocketIoConfig = {
     UserComponent,
     OnlineusersComponent,
     OnlineusersComponent,
-    NavbarComponent
+    NavbarComponent,
+    ChatBubbleComponent,
+    ChatFormComponent
   ],
   imports: [
     BrowserModule,
