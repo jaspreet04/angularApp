@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-form',
@@ -7,14 +8,19 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class ChatFormComponent implements OnInit {
   @Output() onSubmitEvent = new EventEmitter<string>();
-  public message = '';
-  constructor() { }
+
+  chatForm = this.formBuilder.group({
+    message: '',
+  });
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit() {
-    this.onSubmitEvent.emit(this.message);
+  onSubmit(): void {
+    this.onSubmitEvent.emit(this.chatForm.get('message')?.value);
+    this.chatForm.controls['message'].setValue('');
   }
 
 }

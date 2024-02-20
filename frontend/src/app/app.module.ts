@@ -19,7 +19,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button'; 
 import {MatIconModule} from '@angular/material/icon';
 import { ChatBubbleComponent } from './components/chat-bubble/chat-bubble.component';
-import { ChatFormComponent } from './components/chat-form/chat-form.component'
+import { ChatFormComponent } from './components/chat-form/chat-form.component';
+import { ConversationComponent } from './components/conversation/conversation.component'
 
 const config: SocketIoConfig = {
 	url: 'http://localhost:3000', // socket server url;
@@ -40,7 +41,8 @@ const config: SocketIoConfig = {
     OnlineusersComponent,
     NavbarComponent,
     ChatBubbleComponent,
-    ChatFormComponent
+    ChatFormComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,

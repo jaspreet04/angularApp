@@ -20,9 +20,6 @@ import messages from 'src/app/model/messages';
 export class UserComponent implements OnInit, AfterViewChecked {
   @ViewChild('conversationScroll')
   private conversationScrollContainer!: ElementRef;
-  chatForm = this.formBuilder.group({
-    message: '',
-  });
 
   startChatForm = this.formBuilder.group({
     name: '',
@@ -81,15 +78,14 @@ export class UserComponent implements OnInit, AfterViewChecked {
     this.addUser();
   }
 
-  onSendMessage(): void {
+  onSendMessage(messageText: string): void {
     let message: messages = {
-      message: this.chatForm.get('message')?.value,
+      message: messageText,
       from: this.getUserId(),
       to: 'operator',
     };
 
     this.conversation.push(message);
-    this.chatForm.controls['message'].setValue('');
     this.socketService.sendMessage(message);
   }
 

@@ -27,9 +27,7 @@
   </div>
   <div class="costum-w-80 chat-box">
     <app-navbar></app-navbar>
-    <div class="chat-box__conversation" #conversationScroll>
-      <app-chat-bubble *ngFor="let message of conversation" [message]="message" ></app-chat-bubble>
-    </div>
+    <app-conversation [conversation]="conversation"></app-conversation>
     <app-chat-form (onSubmitEvent)="sendMessage($event)"></app-chat-form>
   </div>
 </div>
